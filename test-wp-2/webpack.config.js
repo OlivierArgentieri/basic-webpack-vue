@@ -13,7 +13,7 @@ module.exports = {
     context: path.resolve(__dirname, './'),
     entry: './src/main.ts',
     output: {
-        publicPath: 'http://localhost:8081/',
+        publicPath: 'http://localhost:8082/',
     },
     module: {
         rules: [
@@ -86,14 +86,12 @@ module.exports = {
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin(),
         new ModuleFederationPlugin({
-            name: "first",
+            name: "second",
             filename: "remoteEntry.js",
             remotes: {
+                "first": "first@http://localhost:8081/remoteEntry.js"
             },
-            exposes: {
-                "./HelloWorld": "./src/components/HelloWorld.vue",
-                "./store/index.ts": "./src/store/index.ts"
-            },
+            exposes: {},
             shared: require("./package.json").dependencies,
           }),
     ],
@@ -106,7 +104,7 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, "public"),
-        port: 8081,
+        port: 8082,
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
