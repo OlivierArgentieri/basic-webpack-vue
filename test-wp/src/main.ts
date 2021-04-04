@@ -1,1 +1,1 @@
-import('./loader')
+const loader = import('./loader')

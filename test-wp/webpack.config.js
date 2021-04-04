@@ -92,7 +92,7 @@ module.exports = {
             },
             exposes: {
                 "./HelloWorld": "./src/components/HelloWorld.vue",
-                "./store/index.ts": "./src/store/index.ts"
+                "./store": "./src/store/index.ts"
             },
             shared: require("./package.json").dependencies,
           }),
