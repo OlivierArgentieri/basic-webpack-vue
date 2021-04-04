@@ -3,6 +3,7 @@ var webpack = require('webpack')
 
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 function resolve(dir) {
     return path.join(__dirname, dir).replace('\\', '/')
@@ -79,8 +80,21 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+          }),
         new VueLoaderPlugin(),
-        new HtmlWebpackPlugin()
+        new HtmlWebpackPlugin(),
+        new ModuleFederationPlugin({
+            name: "first",
+            filename: "remoteEntry.js",
+            remotes: {},
+            exposes: {
+                "./HelloWorld": "./src/components/HelloWorld.vue",
+                "./store/index.ts": "./src/store/index.ts"
+                },
+            shared: require("./package.json").dependencies,
+          }),
     ],
     resolve: {
         extensions: ['.ts', '.js', '.vue', '.json'],
